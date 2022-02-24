@@ -12,7 +12,7 @@ from tqdm.auto import tqdm
 device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
 TEXT_EMBED_URL = "https://www.dropbox.com/s/5gvkjyjkolehnn9/text_embeds.npy?dl=1"
 CAPTION_URL = "https://www.dropbox.com/s/n6s30qh1ldycko7/url2caption.csv?dl=1"
-DEFAULT_IMAGE = "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
+DEFAULT_IMAGE = "https://carsguide-res.cloudinary.com/image/upload/f_auto%2Cfl_lossy%2Cq_auto%2Ct_default/v1/editorial/jaguar-xf-rosebaylac-2.jpg"
 
 
 @st.cache(hash_funcs={CLIPModel: lambda _: None, CLIPProcessor: lambda _: None})
@@ -21,7 +21,7 @@ def load_model():
     captions = pd.read_csv(CAPTION_URL)
     # wget text embeddings of above
     response = requests.get(TEXT_EMBED_URL)
-    text_embeddings = torch.FloatTensor(np.load(io.BytesIO(response.content)), allow_pickle=True,fix_imports=True,encoding='latin1')
+    text_embeddings = torch.FloatTensor(np.load(io.BytesIO(response.content)))
     # huggingface model and processor
     model = CLIPModel.from_pretrained("openai/clip-vit-base-patch32", from_tf=False).eval()
     for p in model.parameters():
@@ -58,14 +58,12 @@ def get_best_captions(img_features, text_features, captions):
 
 
 model, processor, captions, text_embeddings = load_model()
-st.header("Image Descriptor")
-st.sidebar.subheader("Description")
-st.sidebar.write("This is a simple prototype using the Hugging Face Transformers - CLIP model, which can be instructed in natural language to predict the most relevant text snippet, given an image.")
-st.sidebar.subheader("Instruction")
-st.sidebar.write("You can paste any link to a photo that you can find online into the box and press enter. The model will try to match what is in the image with a few description.")
-
+st.header("Prototyping CLIP")
 url = st.text_input("Insert url of image", value=DEFAULT_IMAGE)
 image, img_features = get_image(url, model, processor)
 st.image(image)
 
 get_best_captions(img_features, text_embeddings, captions)
+
+st.write("## Shameless self promotion")
+st.write("If you enjoyed the tutorial buy me a coffee, or better yet [buy my course](https://www.udemy.com/course/machine-learning-and-data-science-2021/?referralCode=E79228C7436D74315787) (usually 90% off).")
