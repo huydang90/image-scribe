@@ -12,7 +12,7 @@ from tqdm.auto import tqdm
 device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
 TEXT_EMBED_URL = "https://www.dropbox.com/s/5gvkjyjkolehnn9/text_embeds.npy?dl=1"
 CAPTION_URL = "https://www.dropbox.com/s/n6s30qh1ldycko7/url2caption.csv?dl=1"
-DEFAULT_IMAGE = "https://carsguide-res.cloudinary.com/image/upload/f_auto%2Cfl_lossy%2Cq_auto%2Ct_default/v1/editorial/jaguar-xf-rosebaylac-2.jpg"
+DEFAULT_IMAGE = "https://images.unsplash.com/photo-1490730141103-6cac27aaab94?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
 
 
 @st.cache(hash_funcs={CLIPModel: lambda _: None, CLIPProcessor: lambda _: None})
