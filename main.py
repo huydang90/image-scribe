@@ -58,12 +58,15 @@ def get_best_captions(img_features, text_features, captions):
 
 
 model, processor, captions, text_embeddings = load_model()
-st.header("Prototyping CLIP")
+
+st.header("Image Descriptor")
+st.sidebar.subheader("Description")
+st.sidebar.write("This is a simple prototype using the Hugging Face Transformers - CLIP model, which can be instructed in natural language to predict the most relevant text snippet, given an image.")
+st.sidebar.subheader("Instruction")
+st.sidebar.write("You can paste any link to a photo that you can find online into the box and press enter. The model will try to match what is in the image with a few description.")
+
 url = st.text_input("Insert url of image", value=DEFAULT_IMAGE)
 image, img_features = get_image(url, model, processor)
 st.image(image)
 
 get_best_captions(img_features, text_embeddings, captions)
-
-st.write("## Shameless self promotion")
-st.write("If you enjoyed the tutorial buy me a coffee, or better yet [buy my course](https://www.udemy.com/course/machine-learning-and-data-science-2021/?referralCode=E79228C7436D74315787) (usually 90% off).")
