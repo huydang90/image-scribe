@@ -56,6 +56,8 @@ def get_best_captions(img_features, text_features, captions):
     for caption in captions.loc[idx.cpu().numpy().ravel(), "caption"].values:
         st.write(caption)
 
+logo = Image.open('logo.png')
+st.image(logo, width=250)
 
 model, processor, captions, text_embeddings = load_model()
 
