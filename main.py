@@ -21,7 +21,7 @@ def load_model():
     captions = pd.read_csv(CAPTION_URL)
     # wget text embeddings of above
     response = requests.get(TEXT_EMBED_URL)
-    text_embeddings = torch.FloatTensor(np.load(io.BytesIO(response.content)), allow_pickle=True)
+    text_embeddings = torch.FloatTensor(np.load(io.BytesIO(response.content)), allow_pickle=True,fix_imports=True,encoding='latin1')
     # huggingface model and processor
     model = CLIPModel.from_pretrained("openai/clip-vit-base-patch32", from_tf=False).eval()
     for p in model.parameters():
